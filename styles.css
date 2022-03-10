@@ -41,5 +41,4 @@ body{
  #butoane{
      display: flex;
      justify-content: space-around;
-     flex-grow: calc(5);
  }
