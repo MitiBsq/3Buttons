@@ -1,0 +1,45 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css");
+
+
+body{
+    background-color: antiquewhite;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#Joc{
+    border: 1px black solid;
+    margin: 20%;
+    margin-top: 10px;
+    background-color: white;
+    text-align: center;
+    padding: 10%;
+    
+   
+}
+#Ecran{
+    margin: 5%;
+    
+    font-size: 50px;
+}
+
+ #gamePage{
+     padding: 10%;
+ }
+
+ #ecranNou{
+    margin: 5%;
+    
+    font-size: 50px;
+ }
+
+ #altecran{
+    margin: 5%;
+    
+    font-size: 30px;
+ }
+
+ #butoane{
+     display: flex;
+     justify-content: space-around;
+     flex-grow: calc(5);
+ }
