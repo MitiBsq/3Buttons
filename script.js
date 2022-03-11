@@ -1,122 +1,110 @@
-
-  //Initializez valorile 
-let ecran=document.getElementById('Ecran');
-let joc=document.getElementById('Joc');
-let userSubmitButton=document.getElementById('startGame');
-let gamePage=document.getElementById('gamePage');
-let ecranNou=document.getElementById('ecranNou');
-let butoane=document.getElementById('butoane');
-let gameOver=document.getElementById('gameOver');
-
-let resetButton;
+//We start with creating the start button which starts the whole process of this game
+const userSubmitButton = document.getElementById('startGame');
+userSubmitButton.addEventListener('click', phase1);
+//Getting the variables necessary for our global project
+const screen = document.getElementById('screen');
+const buttonsPlace = document.getElementById('buttonsPlace');
 let redcount;
 let greencount;
 let blackcount;
-
-
-
-// Buton Start Game
-userSubmitButton.addEventListener('click', startJoc);
-
-
-function startJoc() {
-        //dupa apasarea butonului scot "meniul"
-        ecran.remove();
-        document.getElementById('startGame').remove();
-
-        //Creez noua interfata
-        ecranNou.textContent='Alege o culoare!';
-        // Creez cele 3 butoane
-        let redButton= document.createElement('button');
-        let greenButton= document.createElement('button');
-        let blackButton= document.createElement('button');
-        redButton.textContent="Red";
-        redButton.className="btn btn-lg btn-danger";
-        greenButton.textContent="Green";
-        greenButton.className="btn btn-lg btn-success";
-        blackButton.textContent="Black";
-        blackButton.className="btn btn-lg btn-dark";
-        butoane.appendChild(redButton);
-        butoane.appendChild(greenButton);
-        butoane.appendChild(blackButton);
-
-        // Le adaug event
-        redButton.addEventListener('click', (redButtonFunction) =>    {redcount=1; phase1();});
-        greenButton.addEventListener('click',(greenButtonFunction) =>{greencount=1; phase1();});
-        blackButton.addEventListener('click',(blackButtonFunction) =>{blackcount=1; phase1();});
+//This is the phase where we create our game interface
+function phase1() {
+    document.getElementById('startGame').remove();
+    screen.textContent = 'Alege o culoare!';
+    // Creating the 3 buttons and adding events to them
+    const redButton = document.createElement('button');
+    const greenButton = document.createElement('button');
+    const blackButton = document.createElement('button');
+    redButton.textContent = "Red";
+    redButton.className = "btn btn-lg btn-danger";
+    greenButton.textContent = "Green";
+    greenButton.className = "btn btn-lg btn-success";
+    blackButton.textContent = "Black";
+    blackButton.className = "btn btn-lg btn-dark";
+    buttonsPlace.appendChild(redButton);
+    buttonsPlace.appendChild(greenButton);
+    buttonsPlace.appendChild(blackButton);
+    redButton.addEventListener('click', (redButtonFunction) => { redcount = 1; phase2(); });
+    greenButton.addEventListener('click', (greenButtonFunction) => { greencount = 1; phase2(); });
+    blackButton.addEventListener('click', (blackButtonFunction) => { blackcount = 1; phase2(); });
 }
-
-        //Prima parte a jocului-alegerea butonului si decizia daca ai castigat
-     function phase1(){
-             let randomButtons = generateRandomMove();
-             calculateWinner(randomButtons);
-             
-            }
-            //Generez o culoare pentru butonul castigator
-     function generateRandomMove() {
-             let availableButtons = ['red','green','black'];
-             let randomNumber = Math.floor(Math.random() * availableButtons.length);
-             let whatbutton = availableButtons[randomNumber];
-            return whatbutton;}
-            //Verificam daca butonul ales este cel castigator
-     function calculateWinner(randomButton) {
-            switch(randomButton){
-                case 'red':
-                    if(redcount===1)
-                        {ecranNou.textContent="Ati Castigat!";
-                         butoane.style.visibility='hidden';
-                         joc.style.backgroundColor="green";
-                         phase2();} 
-                    else {ecranNou.textContent="Ati Pierdut!";
-                         butoane.style.visibility='hidden';
-                         joc.style.backgroundColor="red";
-                         phase2();}
-                  break;       
-                case 'green':
-                    if(greencount===1)  
-                        {ecranNou.textContent="Ati Castigat!";
-                        butoane.style.visibility='hidden';
-                        joc.style.backgroundColor="green";
-                        phase2(); } 
-                        else {ecranNou.textContent="Ati Pierdut!";
-                        butoane.style.visibility='hidden';
-                        joc.style.backgroundColor="red";
-                        phase2(); }
-                        break;      
-                case 'black':
-                     if(blackcount===1)  
-                        {ecranNou.textContent="Ati Castigat!";
-                        butoane.style.visibility='hidden';
-                        joc.style.backgroundColor="green";
-                        phase2(); } 
-                        else {ecranNou.textContent="Ati Pierdut!";
-                        butoane.style.visibility='hidden';
-                        joc.style.backgroundColor="red";
-                        phase2();}   
-                        break;      
-                }
-            }
-
-
-            
-            //Partea a doua -- partea de resetare joc
-function phase2(){
-    // Creez buton restart joc
-    resetButton=document.createElement('button');
-    resetButton.textContent="Restart Joc";
-    resetButton.className="btn btn-lg btn-primary";
-    gameOver.appendChild(resetButton);
-    // ii adaug un event
-    resetButton.addEventListener('click', resetJoc);
+//In this phase we generate our winning button and see if the player choose it 
+function phase2() {
+    const randomButton = generateRandomButton();
+    calculateWinner(randomButton);
 }
-//faza de revenire la partea 1
-function resetJoc(){
-    ecranNou.textContent="Alege o culoare!";
-    joc.style.backgroundColor="white";
-    butoane.style.visibility='visible';
-    resetButton.remove();
-    redcount=0;
-    greencount=0;
-    blackcount=0;
+//Function for generating the random "button"
+function generateRandomButton() {
+    const availableButtons = ['red', 'green', 'black'];
+    const randomNumber = Math.floor(Math.random() * availableButtons.length);
+    return availableButtons[randomNumber];
+}
+//Function for verifying if the player choose correctly or not
+const game = document.getElementById('game');
+function calculateWinner(randomButton) {
+    switch (randomButton) {
+        case 'red':
+            if (redcount === 1) {
+                screen.textContent = "Ati Castigat!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "green";
+                phase3();
+            }
+            else {
+                screen.textContent = "Ati Pierdut!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "red";
+                phase3();
+            }
+            break;
+        case 'green':
+            if (greencount === 1) {
+                screen.textContent = "Ati Castigat!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "green";
+                phase3();
+            }
+            else {
+                screen.textContent = "Ati Pierdut!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "red";
+                phase3();
+            }
+            break;
+        case 'black':
+            if (blackcount === 1) {
+                screen.textContent = "Ati Castigat!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "green";
+                phase3();
+            }
+            else {
+                screen.textContent = "Ati Pierdut!";
+                buttonsPlace.style.visibility = 'hidden';
+                game.style.backgroundColor = "red";
+                phase3();
+            }
+            break;
     }
-  
+}
+//The last phase -We create the restarting function
+let restartButton;
+function phase3() {
+    //Creating the restart button
+    const gameOver = document.getElementById('gameOver');
+    restartButton = document.createElement('button');
+    restartButton.textContent = "Restart game";
+    restartButton.className = "btn btn-lg btn-primary";
+    gameOver.appendChild(restartButton);
+    restartButton.addEventListener('click', resetGame);
+}
+//Function in which we return to the previous stage for 
+function resetGame() {
+    screen.textContent = "Alege o culoare!";
+    game.style.backgroundColor = "white";
+    buttonsPlace.style.visibility = 'visible';
+    restartButton.remove();
+    redcount = 0;
+    greencount = 0;
+    blackcount = 0;
+}
