@@ -1,14 +1,16 @@
 //We start with creating the start button which starts the whole process of this game
 const userSubmitButton = document.getElementById('startGame');
-userSubmitButton.addEventListener('click', phase1);
+userSubmitButton.addEventListener('click', gameInterface);
 //Getting the variables necessary for our global project
 const screen = document.getElementById('screen');
 const buttonsPlace = document.getElementById('buttonsPlace');
+const game = document.getElementById('game');
 let redcount;
 let greencount;
 let blackcount;
+
 //This is the phase where we create our game interface
-function phase1() {
+function gameInterface() {
     document.getElementById('startGame').remove();
     screen.textContent = 'Alege o culoare!';
     // Creating the 3 buttons and adding events to them
@@ -24,23 +26,25 @@ function phase1() {
     buttonsPlace.appendChild(redButton);
     buttonsPlace.appendChild(greenButton);
     buttonsPlace.appendChild(blackButton);
-    redButton.addEventListener('click', (redButtonFunction) => { redcount = 1; phase2(); });
-    greenButton.addEventListener('click', (greenButtonFunction) => { greencount = 1; phase2(); });
-    blackButton.addEventListener('click', (blackButtonFunction) => { blackcount = 1; phase2(); });
+    redButton.addEventListener('click', (redButtonFunction) => { redcount = 1; resultGenerator(); });
+    greenButton.addEventListener('click', (greenButtonFunction) => { greencount = 1; resultGenerator(); });
+    blackButton.addEventListener('click', (blackButtonFunction) => { blackcount = 1; resultGenerator(); });
 }
+
 //In this phase we generate our winning button and see if the player choose it 
-function phase2() {
+function resultGenerator() {
     const randomButton = generateRandomButton();
     calculateWinner(randomButton);
 }
+
 //Function for generating the random "button"
 function generateRandomButton() {
     const availableButtons = ['red', 'green', 'black'];
     const randomNumber = Math.floor(Math.random() * availableButtons.length);
     return availableButtons[randomNumber];
 }
+
 //Function for verifying if the player choose correctly or not
-const game = document.getElementById('game');
 function calculateWinner(randomButton) {
     switch (randomButton) {
         case 'red':
@@ -48,13 +52,13 @@ function calculateWinner(randomButton) {
                 screen.textContent = "Ati Castigat!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "green";
-                phase3();
+                gameOverMenu();
             }
             else {
                 screen.textContent = "Ati Pierdut!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "red";
-                phase3();
+                gameOverMenu();
             }
             break;
         case 'green':
@@ -62,13 +66,13 @@ function calculateWinner(randomButton) {
                 screen.textContent = "Ati Castigat!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "green";
-                phase3();
+                gameOverMenu();
             }
             else {
                 screen.textContent = "Ati Pierdut!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "red";
-                phase3();
+                gameOverMenu();
             }
             break;
         case 'black':
@@ -76,20 +80,21 @@ function calculateWinner(randomButton) {
                 screen.textContent = "Ati Castigat!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "green";
-                phase3();
+                gameOverMenu();
             }
             else {
                 screen.textContent = "Ati Pierdut!";
                 buttonsPlace.style.visibility = 'hidden';
                 game.style.backgroundColor = "red";
-                phase3();
+                gameOverMenu();
             }
             break;
     }
 }
+
 //The last phase -We create the restarting function
 let restartButton;
-function phase3() {
+function gameOverMenu() {
     //Creating the restart button
     const gameOver = document.getElementById('gameOver');
     restartButton = document.createElement('button');
@@ -98,6 +103,7 @@ function phase3() {
     gameOver.appendChild(restartButton);
     restartButton.addEventListener('click', resetGame);
 }
+
 //Function in which we return to the previous stage for 
 function resetGame() {
     screen.textContent = "Alege o culoare!";
